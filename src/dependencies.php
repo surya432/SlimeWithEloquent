@@ -30,11 +30,20 @@ return function (App $app) {
     //     return $conn;
     // };
     $container['db'] = function ($container) {
-        $capsule = new \Illuminate\Database\Capsule\Manager;
-        $capsule->addConnection($container['settings']['db']);
-        $capsule->setAsGlobal();
-        $capsule->bootEloquent();
-
-        return $capsule;
+        $settings = $container->get('settings');
+        $config = [
+            'driver' => 'mysql',
+            'host' => $settings['db']['host'],
+            'database' => $settings['db']['database'],
+            'username' => $settings['db']['username'],
+            'password' => $settings['db']['password'],
+            'charset'  => $settings['db']['charset'],
+            'collation' => $settings['db']['collation'],
+            'port' => $settings['db']['port'],
+            'prefix' => '',
+        ];
+        $capsule2 = new \Illuminate\Database\Connectors\ConnectionFactory(new \Illuminate\Container\Container());
+        $capsule2 = $capsule2->make($config);
+        return $capsule2;
     };
 };

@@ -15,4 +15,8 @@ return function (App $app) {
         $dataResponse = $data->Test();
         return $response->withJson($dataResponse)->withStatus(200);
     });
+    $app->get('/koneksi2', function (Request $request, Response $response, array $args) use ($container) {
+
+        return $response->withJson($this->db->select($this->db->raw('select * from users')))->withStatus(200);
+    });
 };
