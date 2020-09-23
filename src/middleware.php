@@ -1,5 +1,6 @@
 <?php
 
+use App\CustomErrorHandler\CustomHandler;
 use Slim\App;
 
 return function (App $app) {

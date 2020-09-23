@@ -1,5 +1,6 @@
 <?php
 
+use App\CustomErrorHandler\CustomHandler;
 use Slim\App;
 
 return function (App $app) {
@@ -19,7 +20,7 @@ return function (App $app) {
         // $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
         return $logger;
     };
-
+  
     /// koneksi database
     // $container['db'] = function ($c) {
     //     $settings = $c->get('settings')['db'];
@@ -29,6 +30,7 @@ return function (App $app) {
     //     $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     //     return $conn;
     // };
+
     $container['db'] = function ($container) {
         $settings = $container->get('settings');
         $config = [
