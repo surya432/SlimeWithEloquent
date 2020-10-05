@@ -9,14 +9,9 @@ return function (App $app) {
     $app->get('/', function (Request $request, Response $response, array $args) use ($container) {
         return $container->get('renderer')->render($response, 'index.phtml', $args);
     });
-    $app->get('/koneksi', function (Request $request, Response $response, array $args) use ($container) {
-        $data = new \App\Controller\TestController;
-        $data->db1 = $this->db;
-        $dataResponse = $data->Test();
-        return $response->withJson($dataResponse)->withStatus(200);
-    });
-    $app->get('/koneksi2', function (Request $request, Response $response, array $args) use ($container) {
 
-        return $response->withJson($this->db->select($this->db->raw('select * from users')))->withStatus(200);
+    $app->group('/api', function () use ($app) {
+        $app->get('/tutorial','\App\Controller\TestController:index');
+        $app->get('/tutorial/{id}[/{notlp}]','\App\Controller\TestController:show');
     });
 };

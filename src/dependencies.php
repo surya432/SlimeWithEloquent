@@ -17,7 +17,7 @@ return function (App $app) {
         $settings = $c->get('settings')['logger'];
         $logger = new \Monolog\Logger($settings['name']);
         $logger->pushProcessor(new \Monolog\Processor\UidProcessor());
-        // $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
+        $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
         return $logger;
     };
   
@@ -31,21 +31,32 @@ return function (App $app) {
     //     return $conn;
     // };
 
-    $container['db'] = function ($container) {
-        $settings = $container->get('settings');
-        $config = [
-            'driver' => 'mysql',
-            'host' => $settings['db']['host'],
-            'database' => $settings['db']['database'],
-            'username' => $settings['db']['username'],
-            'password' => $settings['db']['password'],
-            'charset'  => $settings['db']['charset'],
-            'collation' => $settings['db']['collation'],
-            'port' => $settings['db']['port'],
-            'prefix' => '',
-        ];
-        $capsule2 = new \Illuminate\Database\Connectors\ConnectionFactory(new \Illuminate\Container\Container());
-        $capsule2 = $capsule2->make($config);
-        return $capsule2;
+    // $container['db'] = function ($container) {
+    //     $settings = $container->get('settings');
+    //     $config = [
+    //         'driver' => 'mysql',
+    //         'host' => $settings['db']['host'],
+    //         'database' => $settings['db']['database'],
+    //         'username' => $settings['db']['username'],
+    //         'password' => $settings['db']['password'],
+    //         'charset'  => $settings['db']['charset'],
+    //         'collation' => $settings['db']['collation'],
+    //         'port' => $settings['db']['port'],
+    //         'prefix' => '',
+    //     ];
+    //     $capsule2 = new \Illuminate\Database\Connectors\ConnectionFactory(new \Illuminate\Container\Container());
+    //     $capsule2 = $capsule2->make($config);
+    //     return $capsule2;
+    // };
+
+
+    //container for Database Eloquent
+    $capsule = new \Illuminate\Database\Capsule\Manager;
+    $capsule->addConnection($container['settings']['db']);
+    $capsule->addConnection($container['settings']['db2'],'db2');
+    $capsule->setAsGlobal();
+    $capsule->bootEloquent();
+    $container['db'] = function ($container) use($capsule) {
+        return $capsule;
     };
 };
