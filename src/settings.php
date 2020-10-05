@@ -14,26 +14,6 @@ return [
             'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
-        'db' => [
-            'driver' => 'mysql',
-            'host' =>  '10.177.1.54',
-            'database' => 'bdplusmigration',
-            'username' => 'bdplusmigrasi',
-            'password' => 'm1gr4s10k3',
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'port'      => '3306',
-        ],
-        'db2' => [
-            'host' => '10.177.1.54',
-            'database' => 'mieburungdara',
-            'username' => 'bdplus',
-            'password' => 'Supr4m4bdplus123',
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'port'      => '3306',
-        ]
+       
     ],  
 ];

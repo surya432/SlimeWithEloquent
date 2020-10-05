@@ -6,7 +6,7 @@ Class WilayahController extends BaseController{
     public function index($request,$response,$arg){
         ///$model
         
-        return $response->wit
+        return;
     }
 
 }
