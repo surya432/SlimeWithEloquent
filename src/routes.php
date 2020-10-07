@@ -11,7 +11,13 @@ return function (App $app) {
     });
 
     $app->group('/api', function () use ($app) {
-        $app->get('/tutorial','\App\Controller\TestController:index');
-        $app->get('/tutorial/{id}[/{notlp}]','\App\Controller\TestController:show');
+
+        $app->group('/books', function () use ($app) {
+            $app->get('', \App\Controller\BooksController::class . ':index');
+            $app->post('', \App\Controller\BooksController::class . ':create');
+            $app->get('/{id}', \App\Controller\BooksController::class . ':show');
+            $app->post('/books/{id}', \App\Controller\BooksController::class . ':edit');
+            $app->delete('', \App\Controller\BooksController::class . ':delete');
+        });
     });
 };
