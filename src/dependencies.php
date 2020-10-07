@@ -1,6 +1,7 @@
 <?php
 
 use App\CustomErrorHandler\CustomHandler;
+use Respect\Validation\Rules\Length;
 use Slim\App;
 
 return function (App $app) {
@@ -36,7 +37,20 @@ return function (App $app) {
         return new \Awurth\SlimValidation\Validator();
     };
 
-
+    //error custom json
+    $container['errorHandler'] = function ($container) {
+        return function ($request, $response, $exception) use ($container) {
+            return $response->withStatus(500)
+                ->withHeader('Content-Type', 'application/json')
+                ->write(json_encode(array(
+                    'error' => 'INTERNAL_ERROR',
+                    'message' => $exception->getMessage(),
+                    'status' => false,
+                    'data' => [],
+                    'trace' => $exception->getTraceAsString()
+                ), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        };
+    };
 
 
     //container for Database Eloquent

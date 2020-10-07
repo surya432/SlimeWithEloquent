@@ -3,8 +3,15 @@
 Use this skeleton application With Eloquent to quickly setup and start working on a new Slim Framework 3 application. This application uses the latest Slim 3 with the PHP-View template renderer and Eloquent ORM. It also uses the Monolog logger.
 
 This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
+## Support By:
 
-## Install the Application
+we build with:
+* [Eloquent Laravel](https://laravel.com/docs/8.x/eloquent)
+* [Validation Request](https://github.com/Respect/Validation)
+* Custom Error JSON
+* Fitur multi Connection Database
+
+### Install the Application
 
 Run this command from the directory in which you want to install your new Slim Framework application.
 
@@ -31,4 +38,4 @@ Run this command in the application directory to run the test suite
 	php composer.phar test
 
 That's it! Now go build something cool.
-# SlimeWirhEloquent
+
