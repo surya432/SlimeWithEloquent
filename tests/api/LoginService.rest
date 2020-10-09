@@ -1,0 +1,29 @@
+GET http://localhost/SlimeWithEloquent/public/
+###
+POST http://localhost/SlimeWithEloquent/public/api/login
+Content-Type: application/json
+
+{
+    "email":"sda@gsmail.com",
+    "password":"opoaewes1"
+}
+
+### 
+POST http://localhost/SlimeWithEloquent/public/api/signup
+Content-Type: application/json
+
+{
+    "email":"sda@gmail.com",
+    "password":"desdas",
+    "repassword":"desdas",
+    "nama":"surya"
+}
+### 
+POST http://localhost/SlimeWithEloquent/public/api/changePassword/1
+Content-Type: application/json
+
+{
+    "oldpassword":"desdas",
+    "password":"opoaewes1",
+    "repassword":"opoaewes1"
+}

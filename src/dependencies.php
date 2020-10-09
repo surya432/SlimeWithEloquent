@@ -23,16 +23,16 @@ return function (App $app) {
     };
 
     /// koneksi database
-    $container['db2'] = function ($c) {
-        $settings = $c->get('settings')['db'];
-        $server = $settings['driver'] . ":host=" . $settings['host'] . ";port=" . $settings['port'] . ";dbname=" . $settings['database'];
-        $conn = new PDO($server, $settings["username"], $settings["password"]);
-        $conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_EXCEPTION);
-        $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        return $conn;
-    };
+    // $container['db2'] = function ($c) {
+    //     $settings = $c->get('settings')['db'];
+    //     $server = $settings['driver'] . ":host=" . $settings['host'] . ";port=" . $settings['port'] . ";dbname=" . $settings['database'];
+    //     $conn = new PDO($server, $settings["username"], $settings["password"]);
+    //     $conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_EXCEPTION);
+    //     $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    //     return $conn;
+    // };
 
-    //validasi setting
+    // validasi setting
     $container['validator'] = function () {
         return new \Awurth\SlimValidation\Validator();
     };
@@ -53,16 +53,15 @@ return function (App $app) {
     };
 
 
-    //container for Database Eloquent
     $capsule = new \Illuminate\Database\Capsule\Manager;
     $capsule->addConnection($container['settings']['db']);
-
     //use 2 or more connection database
     // $capsule->addConnection($container['settings']['db2'], 'db2');
-
     $capsule->setAsGlobal();
     $capsule->bootEloquent();
-    $container['db'] = function ($container) use ($capsule) {
-        return $capsule;
-    };
+    // $container['db'] = function ($container) use ($capsule){
+    //     //container for Database Eloquent
+
+    //     return $capsule;
+    // };
 };

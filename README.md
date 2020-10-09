@@ -5,7 +5,7 @@ Use this skeleton application With Eloquent to quickly setup and start working o
 This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
 ## Support By:
 
-we build with:
+We build with:
 * [Eloquent Laravel](https://laravel.com/docs/8.x/eloquent)
 * [Validation Request](https://github.com/Respect/Validation)
 * Custom Error JSON

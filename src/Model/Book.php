@@ -7,13 +7,12 @@ use Illuminate\Database\Eloquent\Model as Model;
 class Book extends Model
 {
     protected $table = "books";
+    // protected $guarded = [];
+    protected $fillable = ['title', 'author', 'sinopsis', 'cover'];
+    protected $timestamp = ['created_at', 'updated_at', 'deleted_at'];
 
-    public function scopePopular($query)
+    public function Author()
     {
-        return $query->select('*')->get();
-    }
-    public function scopeGetBook($query, $id, $params)
-    {
-        return $query->select($params)->where('book_id', $id)->first();
+        return $this->belongsTo('\App\Model\Author');
     }
 }
