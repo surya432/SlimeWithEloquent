@@ -2,25 +2,57 @@
 
 namespace App\Controller;
 
+use App\Model\Author;
 use \App\Model\Book;
 use Respect\Validation\Validator as V;
 use Illuminate\Support\Facades\DB;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class BooksController extends BaseController
 {
+    public function exportcsv($request, $response)
+    {
+        // return $response->write(Book::all());
+        $data = Book::all()->toArray();
+        // var_dump($list);
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        // $sheet->setCellValue('A1', 'Hello World !');
+        $headers = ['a', 'b'];
+        for ($i = 0, $l = sizeof($headers); $i < $l; $i++) {
+            $sheet->setCellValueByColumnAndRow($i + 1, 1, $headers[$i]);
+        }
+
+        for ($i = 0, $l = sizeof($data); $i < $l; $i++) { // row $i
+            $j = 0;
+            foreach ($data[$i] as $k => $v) { // column $j
+                $sheet->setCellValueByColumnAndRow($j + 1, ($i + 1 + 1), $v);
+                $j++;
+            }
+        }
+        $writer = new Xlsx($spreadsheet);
+
+        $filename = "export_.xlsx";
+
+        $writer->save('php://output');
+        header("Content-Disposition: attachment; filename=" . $filename);
+
+        exit();
+    }
     public function index($request, $response)
     {
         return $response->withJson(Book::with('Author')
-            ->orderBy('book_id', 'desc')->get());
+            ->orderBy('id', 'desc')->get());
     }
     public function create($request, $response, $args)
     {
-
+        Book::beginTransaction();
         $this->validator()->validate($request, [
             'title' => ["rules" => V::notEmpty(), 'message' => "Tidak Boleh Kosong"],
-            'author' => ["rules" => V::notEmpty(), "message" => "Tidak Boleh Kosong"],
+            'author_id' => ["rules" => V::notEmpty(), "message" => "Tidak Boleh Kosong"],
             'sinopsis' => ["rules" => V::notEmpty(), "message" => "Tidak Boleh Kosong"],
             'cover' => ["rules" => V::notEmpty(), "message" => "Tidak Boleh Kosong"],
         ]);
@@ -29,18 +61,23 @@ class BooksController extends BaseController
         }
         $parsedBody = $request->getParsedBody();
         try {
+            // Book::beginTransaction();
             $this->logger()->addInfo("Create Books created: ");
             $result = Book::create($parsedBody);
+            Book::commit();
             return $response->withJson($result);
+            // Book::commit();
         } catch (\Illuminate\Database\QueryException $th) {
+            Book::rollBack();
             return $response->withJson(["status" => false, "message" => $th]);
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
+            Book::rollBack();
             return $response->withJson(["status" => false, "message" => $th]);
         }
     }
     public function show($request, $response, $args)
     {
-        $this->validator()->validate(
+        $this->validator()->value(
             $args['id'],
             V::numeric(),
             "required Book ID and numeric only"
@@ -54,14 +91,14 @@ class BooksController extends BaseController
         }
         $this->logger()->addInfo("Request Books Show: " . $args['id']);
         //add your logic here
-        return $response->withJson(Book::getBook($args['id'], 'book_id'));
+        return $response->withJson(Book::with('author')->where('id', '=', $args['id'])->first());
     }
     public function edit($request, $response, $args)
     {
         $this->validator()->validate($args['id'], V::NotEmpty(), "books_id is required");
         $this->validator()->validate($request, [
             'title' => ["rules" => V::notEmpty(), 'message' => "Tidak Boleh Kosong"],
-            'author' => ["rules" => V::notEmpty(), "message" => "Tidak Boleh Kosong"],
+            'author_id' => ["rules" => V::notEmpty(), "message" => "Tidak Boleh Kosong"],
             'sipnosis' => ["rules" => V::notEmpty(), "message" => "Tidak Boleh Kosong"],
             'cover' => ["rules" => V::notEmpty(), "message" => "Tidak Boleh Kosong"],
         ]);

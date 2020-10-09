@@ -17,6 +17,7 @@ return function (App $app) {
 
         $app->group('/books', function () use ($app) {
             $app->get('', \App\Controller\BooksController::class . ':index');
+            $app->get('/exportcsv', \App\Controller\BooksController::class . ':exportcsv');
             $app->post('', \App\Controller\BooksController::class . ':create');
             $app->get('/{id}', \App\Controller\BooksController::class . ':show');
             $app->post('/{id}', \App\Controller\BooksController::class . ':edit');

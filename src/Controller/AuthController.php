@@ -6,6 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Services\AuthService;
 use Respect\Validation\Validator as V;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends BaseController
 {
@@ -48,7 +49,6 @@ class AuthController extends BaseController
         try {
             $parsedBody = $request->getParsedBody();
             $this->validator()->validate($request, [
-
                 'password' => [
                     "rules" => V::notEmpty(),
                     'message' => "Password Tidak Boleh Kosong"
@@ -72,7 +72,6 @@ class AuthController extends BaseController
                     'messages' => $this->validator()->getErrors(), "data" => []
                 ], 200);
             }
-
             $accountService = new AuthService();
             $isLogin = $accountService->signUp($parsedBody);
             if (!$isLogin['status']) {

@@ -8,10 +8,24 @@ class Book extends Model
 {
     protected $table = "books";
     // protected $guarded = [];
-    protected $fillable = ['title', 'author', 'sinopsis', 'cover'];
+    // protected $connection = 'db';
+    protected $fillable = ['title', 'author_id', 'sinopsis', 'cover'];
     protected $timestamp = ['created_at', 'updated_at', 'deleted_at'];
+    public static function beginTransaction()
+    {
+        self::getConnectionResolver()->connection()->beginTransaction();
+    }
 
-    public function Author()
+    public static function commit()
+    {
+        self::getConnectionResolver()->connection()->commit();
+    }
+
+    public static function rollBack()
+    {
+        self::getConnectionResolver()->connection()->rollBack();
+    }
+    public function author()
     {
         return $this->belongsTo('\App\Model\Author');
     }

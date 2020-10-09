@@ -4,7 +4,7 @@ POST http://localhost/SlimeWithEloquent/public/api/login
 Content-Type: application/json
 
 {
-    "email":"sda@gsmail.com",
+    "email":"sda@gmail.com",
     "password":"opoaewes1"
 }
 
@@ -24,6 +24,6 @@ Content-Type: application/json
 
 {
     "oldpassword":"desdas",
-    "password":"opoaewes1",
-    "repassword":"opoaewes1"
+    "password":"opoaewe's1",
+    "repassword":"opoaewe's1"
 }

@@ -21,6 +21,8 @@
         "awurth/slim-validation": "^3.3",
         "illuminate/database": "^8.5",
         "monolog/monolog": "^1.17",
+        "parsecsv/php-parsecsv": "^1.2",
+        "phpoffice/phpspreadsheet": "^1.14",
         "slim/php-view": "^2.0",
         "slim/slim": "^3.1"
     },
