@@ -39,7 +39,6 @@ class BooksController extends BaseController
 
         $writer->save('php://output');
         header("Content-Disposition: attachment; filename=" . $filename);
-
         exit();
     }
     public function index($request, $response)
@@ -89,9 +88,8 @@ class BooksController extends BaseController
                 'data' => []
             ]);
         }
-        $this->logger()->addInfo("Request Books Show: " . $args['id']);
         //add your logic here
-        return $response->withJson(Book::with('author')->where('id', '=', $args['id'])->first());
+        return $response->withJson(Book::with('author')->findOrFail($args['id']));
     }
     public function edit($request, $response, $args)
     {
@@ -105,7 +103,6 @@ class BooksController extends BaseController
         if (!$this->validator()->isValid()) {
             return $response->withJson(['status' => false, 'messages' => $this->validator()->getErrors(), "data" => []], 200);
         }
-        $this->logger()->addInfo('Request: Books->edit: ' . $args['id']);
         //add your logic here
         return $response->withJson($args['id']);
     }

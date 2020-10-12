@@ -1,7 +1,6 @@
 <?php
 
-use App\CustomErrorHandler\CustomHandler;
-use Respect\Validation\Rules\Length;
+use App\Handlers\CustomError;
 use Slim\App;
 
 return function (App $app) {
@@ -40,18 +39,33 @@ return function (App $app) {
     //error custom json
     $container['errorHandler'] = function ($container) {
         return function ($request, $response, $exception) use ($container) {
+            // retrieve logger from $container here and log the error
+            $container->logger->addCritical('Unhandled Exception: ' . $exception->getMessage());
+            $response->getBody()->rewind();
             return $response->withStatus(500)
                 ->withHeader('Content-Type', 'application/json')
                 ->write(json_encode(array(
-                    'error' => 'INTERNAL_ERROR',
+                    "status" => false,
                     'message' => $exception->getMessage(),
-                    'status' => false,
-                    'data' => [],
-                    'trace' => $exception->getTraceAsString()
-                ), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+                    "line" => $exception->getLine()
+                )));
         };
     };
 
+    $container['phpErrorHandler'] = function ($container) {
+        return function ($request, $response, $exception) use ($container) {
+            $container->logger->addCritical('Unhandled Exception: ' . $exception->getMessage());
+            // retrieve logger from $container here and log the error
+            $response->getBody()->rewind();
+            return $response->withStatus(500)
+                ->withHeader('Content-Type', 'application/json')
+                ->write(json_encode(array(
+                    "status" => false,
+                    'message' => $exception->getMessage(),
+                    "line" => $exception->getLine()
+                )));
+        };
+    };
 
     $capsule = new \Illuminate\Database\Capsule\Manager;
     $capsule->addConnection($container['settings']['db']);
@@ -59,7 +73,7 @@ return function (App $app) {
     // $capsule->addConnection($container['settings']['db2'], 'db2');
     $capsule->setAsGlobal();
     $capsule->bootEloquent();
-    // $container['db'] = function ($container) use ($capsule){
+    // $container['db'] = function ($container) use ($capsule) {
     //     //container for Database Eloquent
 
     //     return $capsule;

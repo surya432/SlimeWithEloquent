@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
     "email":"sda@gmail.com",
-    "password":"opoaewes1"
+    "password":"desdas1"
 }
 
 ### 
@@ -24,6 +24,6 @@ Content-Type: application/json
 
 {
     "oldpassword":"desdas",
-    "password":"opoaewe's1",
-    "repassword":"opoaewe's1"
+    "password":"desdas1",
+    "repassword":"desdas1"
 }

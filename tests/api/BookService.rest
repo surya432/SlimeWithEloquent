@@ -7,7 +7,7 @@ POST http://localhost/SlimeWithEloquent/public/api/books
 Content-Type: application/json
 
 {
-    "title":"Magna anim aliquip ullamco Lorem adipisicing proident aliqua excepteur veniam reprehenderit.",
+    "titles":"Magna anim aliquip ullamco Lorem adipisicing proident aliqua excepteur veniam reprehenderit.",
     "sinopsis":"Officia ullamco pariatur dolore tempor. Duis consequat dolore cillum voluptate temspor commodo amet et proident aliquip ut pariatur enim. Culpa minim voluptate consequat nostrud ex proident labore cillum qui cupidatat ullamco cupidatat est pariatur. Officia ex et pariatur sit tempor in officia s nisi id.",
     "author_id":"1",
     "cover":"cover.jpg"
