@@ -21,6 +21,7 @@
         "awurth/slim-validation": "^3.3",
         "illuminate/database": "^8.5",
         "monolog/monolog": "^1.17",
+        "nesbot/carbon": "^2.41",
         "parsecsv/php-parsecsv": "^1.2",
         "phpoffice/phpspreadsheet": "^1.14",
         "slim/php-view": "^2.0",

@@ -12,7 +12,7 @@ class AuthorController extends BaseController
 {
     public function index($request, $response)
     {
-        return $response->withJson(Author::with('book')->orderBy('id', 'desc')->get());
+        return $response->withJson(["status" => true, "data" => Author::with('book')->orderBy('id', 'desc')->get()], 200);
     }
     public function create($request, $response, $args)
     {
@@ -49,7 +49,6 @@ class AuthorController extends BaseController
                 'data' => []
             ]);
         }
-        $this->logger()->addInfo("Request Books Show: " . $args['id']);
         //add your logic here
         return $response->withJson(Author::getBook($args['id'], 'book_id'));
     }
@@ -62,7 +61,6 @@ class AuthorController extends BaseController
         if (!$this->validator()->isValid()) {
             return $response->withJson(['status' => false, 'messages' => $this->validator()->getErrors(), "data" => []], 200);
         }
-        $this->logger()->addInfo('Request: Books->edit: ' . $args['id']);
         //add your logic here
         return $response->withJson($args['id']);
     }

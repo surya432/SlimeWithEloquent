@@ -36,35 +36,30 @@ return function (App $app) {
         return new \Awurth\SlimValidation\Validator();
     };
 
-    //error custom json
-    $container['errorHandler'] = function ($container) {
-        return function ($request, $response, $exception) use ($container) {
+    //Error custom json
+
+    $CustomError =
+        function ($request, $response, $exception) use ($container) {
             // retrieve logger from $container here and log the error
-            $container->logger->addCritical('Unhandled Exception: ' . $exception->getMessage());
+            $dataError = json_encode(array(
+                "status" => false,
+                'message' => $exception->getMessage(),
+                "line" => $exception->getLine(),
+                "file" => $exception->getFile()
+            ));
+            $container->logger->addCritical('Unhandled Exception: ' . $dataError);
             $response->getBody()->rewind();
             return $response->withStatus(500)
                 ->withHeader('Content-Type', 'application/json')
-                ->write(json_encode(array(
-                    "status" => false,
-                    'message' => $exception->getMessage(),
-                    "line" => $exception->getLine()
-                )));
+                ->write($dataError);
         };
+
+    $container['errorHandler'] = function ($container) use ($CustomError) {
+        return $CustomError;
     };
 
-    $container['phpErrorHandler'] = function ($container) {
-        return function ($request, $response, $exception) use ($container) {
-            $container->logger->addCritical('Unhandled Exception: ' . $exception->getMessage());
-            // retrieve logger from $container here and log the error
-            $response->getBody()->rewind();
-            return $response->withStatus(500)
-                ->withHeader('Content-Type', 'application/json')
-                ->write(json_encode(array(
-                    "status" => false,
-                    'message' => $exception->getMessage(),
-                    "line" => $exception->getLine()
-                )));
-        };
+    $container['phpErrorHandler'] = function ($container)  use ($CustomError) {
+        return $CustomError;
     };
 
     $capsule = new \Illuminate\Database\Capsule\Manager;
