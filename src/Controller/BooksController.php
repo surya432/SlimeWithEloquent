@@ -6,10 +6,11 @@ use App\Model\Author;
 use \App\Model\Book;
 use Respect\Validation\Validator as V;
 use Illuminate\Support\Facades\DB;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Pagination;
+
+use Illuminate\Pagination\Paginator;
 
 class BooksController extends BaseController
 {
@@ -34,17 +35,21 @@ class BooksController extends BaseController
             }
         }
         $writer = new Xlsx($spreadsheet);
-
         $filename = "export_.xlsx";
-
         $writer->save('php://output');
         header("Content-Disposition: attachment; filename=" . $filename);
         exit();
     }
     public function index($request, $response)
     {
-        return $response->withJson(Book::with('Author')
-            ->orderBy('id', 'desc')->get());
+        $params = $request->getQueryParam('page', 1);
+        \Illuminate\Pagination\Paginator::currentPageResolver(function () use ($params) {
+            return $params;
+        });
+        return $response->withJson(
+            Book::with('Author')
+                ->orderBy('created_at', 'desc')->simplePaginate(15)
+        );
     }
     public function create($request, $response, $args)
     {

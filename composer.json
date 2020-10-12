@@ -20,6 +20,7 @@
         "php": ">=5.6",
         "awurth/slim-validation": "^3.3",
         "illuminate/database": "^8.5",
+        "illuminate/pagination": "^8.9",
         "monolog/monolog": "^1.17",
         "nesbot/carbon": "^2.41",
         "parsecsv/php-parsecsv": "^1.2",

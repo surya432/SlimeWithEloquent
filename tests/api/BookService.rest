@@ -1,5 +1,4 @@
-GET http://localhost/SlimeWithEloquent/public/api/books
-
+GET http://localhost/SlimeWithEloquent/public/api/books?page=1
 ###
 GET http://localhost/SlimeWithEloquent/public/api/books/1
 ###
