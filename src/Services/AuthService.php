@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Model\User;
+use Exception;
 
 class AuthService
 {
@@ -16,9 +17,13 @@ class AuthService
         if ($request['password'] == $request['oldpassword']) {
             return ['status' => false, 'message' => "Password Tidak boleh sama"];
         }
-        return ['status' => true, 'data' => USER::find($id)->update([
+        $userPassValid = USER::where(["password" => md5($request['oldpassword'] . $this->keyPassword)])->update([
             "password" => md5($request['password'] . $this->keyPassword),
-        ])];
+        ]);
+        if (!$userPassValid) {
+            return ['status' => false, 'message' => "Password Lama Salah"];
+        }
+        return ['status' => true, 'data' => $userPassValid];
     }
     public function signUp($request)
     {

@@ -26,7 +26,6 @@ class BooksController extends BaseController
         for ($i = 0, $l = sizeof($headers); $i < $l; $i++) {
             $sheet->setCellValueByColumnAndRow($i + 1, 1, $headers[$i]);
         }
-
         for ($i = 0, $l = sizeof($data); $i < $l; $i++) { // row $i
             $j = 0;
             foreach ($data[$i] as $k => $v) { // column $j

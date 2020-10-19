@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
     "email":"sda@gmail.com",
-    "password":"desdas1"
+    "password":"desdas21"
 }
 
 ### 
@@ -23,7 +23,7 @@ POST http://localhost/SlimeWithEloquent/public/api/changePassword/1
 Content-Type: application/json
 
 {
-    "oldpassword":"desdas",
-    "password":"desdas1",
-    "repassword":"desdas1"
+    "oldpassword":"desdas21",
+    "password":"opoaewes1",
+    "repassword":"opoaewes1"
 }

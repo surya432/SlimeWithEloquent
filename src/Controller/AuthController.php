@@ -34,11 +34,7 @@ class AuthController extends BaseController
             }
             $accountService = new AuthService();
             $isLogin = $accountService->changePassword($parsedBody, $args['id']);
-            if (!$isLogin['status']) {
-                return $response->withJson($isLogin);
-            } else {
-                return $response->withJson($isLogin);
-            }
+            return $response->withJson($isLogin);
         } catch (\Exception $th) {
             return $response->withJson(["status" => false, "message" => $th]);
         }
