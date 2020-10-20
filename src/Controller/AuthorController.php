@@ -19,7 +19,6 @@ class AuthorController extends BaseController
 
         $this->validator()->validate($request, [
             'nama' => ["rules" => V::notEmpty(), 'message' => "Tidak Boleh Kosong"],
-
         ]);
         if (!$this->validator()->isValid()) {
             return $response->withJson(['status' => false, 'messages' => $this->validator()->getErrors(), "data" => []], 200);

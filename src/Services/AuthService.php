@@ -5,12 +5,12 @@ namespace App\Services;
 use App\Model\User;
 use Exception;
 
-class AuthService
+class AuthService extends BaseService
 {
     protected $keyPassword = "isSecretKeyNumbber";
     public function changePassword($request, $id)
     {
-        $userValid = USER::find($id);
+        $userValid = USER::find($id); //select form user where id=1
         if (!$userValid) {
             return ['status' => false, 'message' => "user id Tidak Valid"];
         }
@@ -20,7 +20,13 @@ class AuthService
         $userPassValid = USER::where(["password" => md5($request['oldpassword'] . $this->keyPassword)])->update([
             "password" => md5($request['password'] . $this->keyPassword),
         ]);
+        $data = $this->dbConnect()->prepare('select * from users');
+        // $data->execute();
+
+        $data->execute();
+        return $data->fetch();
         if (!$userPassValid) {
+            // $deta->fecht();
             return ['status' => false, 'message' => "Password Lama Salah"];
         }
         return ['status' => true, 'data' => $userPassValid];

@@ -14,7 +14,7 @@ class AuthController extends BaseController
     public function changePassword($request, $response, $args)
     {
         try {
-            $parsedBody = $request->getParsedBody();
+            $parsedBody = $request->getParsedBody(); // ini body 
             $this->validator()->value($args['id'], V::notEmpty(), "User id required");
             $this->validator()->validate($request, [
                 'password' => [
@@ -32,7 +32,7 @@ class AuthController extends BaseController
                     'messages' => $this->validator()->getErrors(), "data" => []
                 ], 200);
             }
-            $accountService = new AuthService();
+            $accountService = new  \App\Services\AuthService($this->container);
             $isLogin = $accountService->changePassword($parsedBody, $args['id']);
             return $response->withJson($isLogin);
         } catch (\Exception $th) {
@@ -68,7 +68,7 @@ class AuthController extends BaseController
                     'messages' => $this->validator()->getErrors(), "data" => []
                 ], 200);
             }
-            $accountService = new AuthService();
+            $accountService = new  \App\Services\AuthService($this->container);
             $isLogin = $accountService->signUp($parsedBody);
             if (!$isLogin['status']) {
                 return $response->withJson($isLogin);
@@ -99,7 +99,7 @@ class AuthController extends BaseController
                 return $response->withJson(['status' => false, 'messages' => $this->validator()->getErrors(), "data" => []], 200);
             }
 
-            $accountService = new AuthService();
+            $accountService = new  \App\Services\AuthService($this->container);
             $isLogin = $accountService->login($parsedBody);
             if (!$isLogin['status']) {
                 return $response->withJson($isLogin);

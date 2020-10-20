@@ -22,14 +22,14 @@ return function (App $app) {
     };
 
     /// koneksi database
-    // $container['db2'] = function ($c) {
-    //     $settings = $c->get('settings')['db'];
-    //     $server = $settings['driver'] . ":host=" . $settings['host'] . ";port=" . $settings['port'] . ";dbname=" . $settings['database'];
-    //     $conn = new PDO($server, $settings["username"], $settings["password"]);
-    //     $conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_EXCEPTION);
-    //     $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    //     return $conn;
-    // };
+    $container['db2'] = function ($c) {
+        $settings = $c->get('settings')['db'];
+        $server = $settings['driver'] . ":host=" . $settings['host'] . ";port=" . $settings['port'] . ";dbname=" . $settings['database'];
+        $conn = new PDO($server, $settings["username"], $settings["password"]);
+        $conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_EXCEPTION);
+        $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        return $conn;
+    };
 
     // validasi setting
     $container['validator'] = function () {
