@@ -6,7 +6,6 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Services\AuthService;
 use Respect\Validation\Validator as V;
-use Illuminate\Support\Facades\DB;
 
 class AuthController extends BaseController
 {

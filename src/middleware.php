@@ -10,10 +10,12 @@ return function (App $app) {
     $container = $app->getContainer();
     ///log auto
     $app->add(function (Request $request, Response $response, $next) use ($container) {
-        $route = $request->getAttribute('route');
-        $arguments = $route->getArguments() ? $route->getArguments() : null;
-        $data = json_decode($request->getBody()) ? json_encode(json_decode($request->getBody(), true)) : null;
-        $container->get('logger')->addInfo("Akses " . $route->getName(), ["args" => $arguments, "body" => $data]);
+        if(!is_null($request->getAttribute('route'))){
+            $route = $request->getAttribute('route');
+            $arguments = $route->getArguments() ? $route->getArguments() : null;
+            $data = json_decode($request->getBody()) ? json_encode(json_decode($request->getBody(), true)) : null;
+            $container->get('logger')->addInfo("Akses " . $route->getName(), ["args" => $arguments, "body" => $data]);
+        }
         $response = $next($request, $response);
         return $response;
     });
