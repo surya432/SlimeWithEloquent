@@ -57,6 +57,19 @@ return function (App $app) {
     $container['errorHandler'] = function ($container) use ($CustomError) {
         return $CustomError;
     };
+    
+    $container['notFoundHandler'] = function ($container) {
+        return function ($request, $response) use ($container) {
+            $dataError = json_encode(array(
+                "status" => false,
+                'message' => "Page Not Found",
+            ));
+            return $response->withStatus(404)
+                ->withHeader('Content-Type', 'application/json')
+                ->write($dataError);
+        };
+    };
+
 
     $container['phpErrorHandler'] = function ($container)  use ($CustomError) {
         return $CustomError;
